@@ -134,6 +134,10 @@
 	      <input type="submit" name="button" id="button" value="Search" size="20" onclick="appear('hide')" />
 	    </p>                        
 </form>
+ <h2 class="art-postheader">
+                List of Suppliers
+                                </h2>
+
  <%if(data.size() != 0){ %>
  <form action="viewSuppliersList" method="post">
  <table width="396" border="4">

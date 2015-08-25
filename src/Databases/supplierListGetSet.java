@@ -4,7 +4,7 @@ public class supplierListGetSet {
 
 	int supplierListId;
 	int minQty;
-	int leadTIme;
+	int leadTime;
 	double price;
 	int supplierId;
 	String itemId;
@@ -20,11 +20,11 @@ public class supplierListGetSet {
 	public void setMinQty(int minQty) {
 		this.minQty = minQty;
 	}
-	public int getLeadTIme() {
-		return leadTIme;
+	public int getLeadTime() {
+		return leadTime;
 	}
-	public void setLeadTIme(int leadTIme) {
-		this.leadTIme = leadTIme;
+	public void setLeadTime(int leadTime) {
+		this.leadTime = leadTime;
 	}
 	public double getPrice() {
 		return price;

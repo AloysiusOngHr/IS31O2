@@ -165,7 +165,7 @@ public class ADatabase {
 		boolean have = haveContainer(cont);
 		if(have == false){
 			try {
-				
+
 				String sql = "insert into container (name, length, breath, height, weight) values (?,?,?,?,?)";
 				getConnection();
 				PreparedStatement prepStmt = con.prepareStatement(sql);
@@ -240,13 +240,13 @@ public class ADatabase {
 		}
 		return list1;
 	}
-	
+
 	public boolean createSupplier(supplierGetSet sup) {
 		boolean status = false;
 		boolean have = haveSupplier(sup);
 		if(have == false){
 			try {
-				
+
 				String sql = "insert into supplier (companyName, address, poCode, contactNo, country, contactPerson) values (?,?,?,?,?,?)";
 				getConnection();
 				PreparedStatement prepStmt = con.prepareStatement(sql);
@@ -268,7 +268,7 @@ public class ADatabase {
 		}
 		return status;
 	}
-	
+
 	public boolean haveSupplier(supplierGetSet sup){
 		int haveSup = sup.getSupplierId();
 		boolean have = false;
@@ -291,7 +291,7 @@ public class ADatabase {
 		}
 		return have;
 	}
-	
+
 	public List getSupplier(String result) {
 		ArrayList list1 = new ArrayList();
 		try {
@@ -301,7 +301,6 @@ public class ADatabase {
 			prepStmt.setString(1,  "%" + result + "%");
 			ResultSet rs = prepStmt.executeQuery();
 
-			System.out.println("A");
 			while (rs.next()) {
 				supplierGetSet rgs = new supplierGetSet();
 				rgs.setSupplierId(rs.getInt("supplierId"));
@@ -311,7 +310,6 @@ public class ADatabase {
 				rgs.setContactNo(rs.getString("contactNo"));
 				rgs.setCountry(rs.getString("country"));
 				rgs.setContactPerson(rs.getString("contactPerson"));
-				System.out.println(rgs.getSupplierId());
 				list1.add(rgs);
 			} 
 
@@ -324,17 +322,15 @@ public class ADatabase {
 		}
 		return list1;
 	}
-	
+
 	public List getASupplier(String result) {
 		ArrayList list1 = new ArrayList();
 		try {
-			System.out.println(result);
 			String selectStatement = "select * from supplier WHERE supplierId like ?";
 			getConnection();
 			PreparedStatement prepStmt = con.prepareStatement(selectStatement);
 			prepStmt.setString(1, result);
 			ResultSet rs = prepStmt.executeQuery();
-			System.out.println("B");
 
 			while (rs.next()) {
 				supplierGetSet rgs = new supplierGetSet();
@@ -345,7 +341,6 @@ public class ADatabase {
 				rgs.setContactNo(rs.getString("contactNo"));
 				rgs.setCountry(rs.getString("country"));
 				rgs.setContactPerson(rs.getString("contactPerson"));
-				System.out.println(rgs.getSupplierId());
 				list1.add(rgs);
 			} 
 
@@ -358,7 +353,7 @@ public class ADatabase {
 		}
 		return list1;
 	}
-	
+
 	public List getLocation(String result) {
 		ArrayList list1 = new ArrayList();
 		try {
@@ -386,13 +381,13 @@ public class ADatabase {
 		}
 		return list1;
 	}
-	
+
 	public boolean createLocation(locationGetSet loc) {
 		boolean status = false;
 		boolean have = haveLocation(loc);
 		if(have == false){
 			try {
-				
+
 				String sql = "insert into location (locationName, description) values (?,?)";
 				getConnection();
 				PreparedStatement prepStmt = con.prepareStatement(sql);
@@ -410,7 +405,7 @@ public class ADatabase {
 		}
 		return status;
 	}
-	
+
 	public boolean haveLocation(locationGetSet loc){
 		String haveLoc = loc.getLocationName();
 		boolean have = false;
@@ -433,7 +428,7 @@ public class ADatabase {
 		}
 		return have;
 	}
-	
+
 	public List getSupplierList(String result) {
 		ArrayList list1 = new ArrayList();
 		try {
@@ -449,7 +444,7 @@ public class ADatabase {
 				rgs.setSupplierListId(rs.getInt("supplierListId"));
 				rgs.setItemId(rs.getString("itemId"));
 				rgs.setMinQty(rs.getInt("minQty"));
-				rgs.setLeadTIme(rs.getInt("leadTime"));
+				rgs.setLeadTime(rs.getInt("leadTime"));
 				rgs.setPrice(rs.getDouble("price"));
 				list1.add(rgs);
 			} 
@@ -464,5 +459,127 @@ public class ADatabase {
 		return list1;
 	}
 
+	public boolean editSupplier(String id, String address, String poCode, String country, String conPer, String conNo) {
+		boolean status = false;
+		System.out.println(id);
+		try {
+			String sql = "UPDATE supplier SET address = ?, poCode = ?, country = ?, contactPerson = ?, contactNo = ? WHERE supplierId = ?";
+			getConnection();
+			PreparedStatement prepStmt = con.prepareStatement(sql);
+			prepStmt.setString(1, address);
+			prepStmt.setString(2, poCode);
+			prepStmt.setString(3, country);
+			prepStmt.setString(4, conPer);
+			prepStmt.setString(5, conNo);
+			prepStmt.setString(6, id);
+
+			System.out.println(id);
+			System.out.println(id);
+			System.out.println(id);
+			int count = prepStmt.executeUpdate();
+			if (count > 0) status = true;
+			prepStmt.close();
+			releaseConnection();
+		} catch (SQLException ex) {
+			releaseConnection();
+			ex.printStackTrace();
+		}
+		return status;
+	}
+
+	public List getItemList(String supId){
+		ArrayList list1 = new ArrayList();
+		try {
+			//add supplier list
+			ArrayList check = (ArrayList) getItemList();
+			ArrayList item = new ArrayList();
+			for(int i = 0; i < check.size(); i++){
+				ArrayList temp = (ArrayList) check.get(i);
+				String m = (String) temp.get(1);
+				if(m.equals(supId))
+					item.add(temp.get(0));
+			}
+			
+			String selectStatement = "select * from inventory WHERE inventoryId like ?";
+			getConnection();
+			PreparedStatement prepStmt = con.prepareStatement(selectStatement);
+			prepStmt.setString(1,  "%");
+			ResultSet rs = prepStmt.executeQuery();
+			while (rs.next()) {
+				ArrayList rgs = new ArrayList();
+				String id = rs.getString("inventoryId");
+				rgs.add(id);
+				rgs.add(rs.getString("name"));
+				boolean nohave = true;
+				for (int j = 0; j < item.size();j++){
+					if(id.equals(item.get(j))){
+						nohave = false;
+						break;
+					}
+				}
+				
+				if(nohave)
+					list1.add(rgs);
+			} 
+			prepStmt.close();
+			releaseConnection();
+
+		} catch (SQLException ex) {
+			releaseConnection();
+			ex.printStackTrace();
+		}
+		return list1;
+	}
+
+	public boolean createSupplierList(supplierListGetSet sl) {
+		boolean status = false;
+
+		try {
+
+			String sql = "insert into supplierList (minQty, leadTime, price, supplierId, itemId) values (?,?,?,?,?)";
+			getConnection();
+			PreparedStatement prepStmt = con.prepareStatement(sql);
+			prepStmt.setInt(1,sl.getMinQty());
+			prepStmt.setInt(2, sl.getLeadTime());
+			prepStmt.setDouble(3, sl.getPrice());
+			prepStmt.setInt(4, sl.getSupplierId());
+			prepStmt.setString(5, sl.getItemId());
+
+			int count = prepStmt.executeUpdate();
+			if (count > 0) status = true;
+			prepStmt.close();
+			releaseConnection();
+		} catch (SQLException ex) {
+			releaseConnection();
+			ex.printStackTrace();
+		}
+
+		return status;
+	}
+	
+	public List getItemList(){
+		ArrayList list1 = new ArrayList();
+		try {
+			String selectStatement = "select * from supplierList WHERE supplierListId like ?";
+			getConnection();
+			PreparedStatement prepStmt = con.prepareStatement(selectStatement);
+			prepStmt.setString(1,  "%");
+			ResultSet rs = prepStmt.executeQuery();
+			while (rs.next()) {
+				ArrayList rgs = new ArrayList();
+				String id = rs.getString("itemId");
+				rgs.add(id);
+				rgs.add(rs.getString("supplierId"));
+                list1.add(rgs);
+			} 
+			prepStmt.close();
+			releaseConnection();
+
+		} catch (SQLException ex) {
+			releaseConnection();
+			ex.printStackTrace();
+		}
+		return list1;
+	}
 }
 

@@ -45,6 +45,7 @@ public class viewSuppliersList extends HttpServlet {
 			ArrayList data = new ArrayList();
 			data.add((ArrayList) db.getSupplierList(search));
 			data.add((ArrayList) db.getASupplier(search));
+			data.add((ArrayList) db.getItemList(search));
 			request.setAttribute("data", data);
 			getServletContext().getRequestDispatcher("/SupplierList.jsp").forward(request,response);
 		} catch (Exception e) {

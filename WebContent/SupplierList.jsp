@@ -128,24 +128,86 @@
  		<p><input name="sSup" type="text" id="sSup" size="43"/>
 	      </label>
 	      <input type="submit" name="button" id="button" value="Search" size="20" onclick="appear('hide')" />
-	    </p>                        
+	    </p>
+	    </form>                        
 
 <%ArrayList supA = (ArrayList) data.get(0);
 ArrayList supB = (ArrayList) data.get(1);
 supplierGetSet sup = (supplierGetSet) supB.get(0);
+String sid = Integer.toString(sup.getSupplierId());
+ArrayList item = (ArrayList) data.get(2);
 %>
 
-Supplier Id: <input type="text" name="name" id="name" value="<%=sup.getSupplierId() %>" style="width: 234px"/><br></br>
-Company Name: <input type="text" name="name" id="name" value="<%=sup.getCompanyName() %>" style="width: 234px"/><br></br>
-Address: <input type="text" name="name" id="name" value="<%=sup.getAddress() %>" style="width: 234px"/><br></br>
-Postal Code: <input type="text" name="name" id="name" value="<%=sup.getPoCode() %>" style="width: 234px"/><br></br>
-Country: <input type="text" name="name" id="name" value="<%=sup.getCountry() %>" style="width: 234px"/><br></br>
-Contact Person: <input type="text" name="name" id="name" value="<%=sup.getContactPerson() %>" style="width: 234px"/><br></br>
-Contact No: <input type="text" name="name" id="name" value="<%=sup.getContactNo() %>" style="width: 234px"/><br></br>
+<h2 class="art-postheader"> Supplier's Profile</h2>
 
+<form action="editSupplier" method="post">
+
+<pre>Supplier Id:	 <%=sup.getSupplierId()%></pre>
+<pre>Company Name:   <%=sup.getCompanyName()%></pre>
+<pre>Address:        <input type="text" name="add" id="add" value="<%=sup.getAddress() %>" style="width: 234px"/></pre>
+<pre>Postal Code:    <input type="text" name="poCode" id="poCode" value="<%=sup.getPoCode() %>" style="width: 234px"/></pre>
+<pre>Country:        <input type="text" name="country" id="country" value="<%=sup.getCountry() %>" style="width: 234px"/></pre>
+<pre>Contact Person: <input type="text" name="conPerson" id="conPerson" value="<%=sup.getContactPerson() %>" style="width: 234px"/></pre>
+<pre>Contact No:     <input type="text" name="contact" id="contact" value="<%=sup.getContactNo() %>" style="width: 234px"/></pre>
+<input type="hidden" name="id" value= "<%=sid%>"/>
+<input type="submit" value="Update Supplier Profile"/>
+</form>
+
+<p>
+<form action="addItem" method="post">
+<table width="480" border="0">
+  <tr>
+    <th scope="col">Item:</th>
+    <td style="font-weight:bolder">   
+    <select name="item"  id="item">
+                <%
+                    for (int i = 0; i < item.size(); i++) {
+                    	ArrayList lis = (ArrayList) item.get(i);
+                    	
+                %>
+                <option value="<%=(String) lis.get(0)%>"><%=(String) lis.get(1)%></option>
+                <%-- print list<option value="<%=i%>"><%=(String)data.get(i)%></option>--%>
+                <%}%>
+            </select>
+    </td>
+  </tr>
+   <tr>
+    <th scope="col">Min Quantity:</th>
+    <td style="font-weight:bolder"><input type="text" name="mQ" id="mQ" ></input></td>
+  </tr>
+   <tr>
+    <th width="158" scope="col"> Lead Time:</th>
+    <td width="397">
+      <label>
+        <input name="lT" id ="lT"/>      
+      </label>  
+    </td>
+  </tr>
+     <tr>
+    <th width="158" scope="col"> Price:</th>
+    <td width="397">
+      <label>
+        <input name="price" id ="price"/>      
+      </label>  
+      <input type="hidden" name="id" value= "<%=sid%>"/>
+    </td>
+    <tr>
+    <th scope="row"><em>Create:</em></th>
+    <td>
+      <label>
+       <input type="submit" value="Submit"/>
+      </label>
+    </td>
+  </tr>
+</table>
+</form>
+</p>
+
+<h2 class="art-postheader"> List of Supplier's Sale items</h2>
+<%-- 
  <%if(supA.size() != 0){ %>
- <form action="viewSupplier" method="post">
- <table width="396" border="4">
+ <form action="removeSupplier" method="post">
+ <table width="396" `>
    <tr>
      <th width="48" scope="col" id="underline" style="width: 101px"><strong>Id</strong></th>
      <th width="48" scope="col" id="underline" style="width: 101px"><strong>Item Id</strong></th>
@@ -156,7 +218,7 @@ Contact No: <input type="text" name="name" id="name" value="<%=sup.getContactNo(
    </tr>
    <%for(int i = 0; i < supA.size();i++){ 
    	 supplierListGetSet supList = (supplierListGetSet) supA.get(i);
-   	 String sid = Integer.toBinaryString(supList.getSupplierListId());
+   	 String sidL = Integer.toString(supList.getSupplierListId());
    %>
   <tr>
      <td><jsp:expression> supList.getSupplierListId() </jsp:expression></td>
@@ -164,7 +226,7 @@ Contact No: <input type="text" name="name" id="name" value="<%=sup.getContactNo(
      <td><jsp:expression> supList.getMinQty() </jsp:expression></td>
      <td><jsp:expression> supList.getLeadTIme() </jsp:expression></td>
      <td><jsp:expression> supList.getPrice() </jsp:expression></td>
-     <td><input type="radio" name="search" value ="<%=sid%>"></td>
+     <td><input type="radio" name="search" value ="<%=sidL%>"></td>
    </tr>
    <%}%>
  </table>
@@ -174,8 +236,7 @@ Contact No: <input type="text" name="name" id="name" value="<%=sup.getContactNo(
  There is no item.
  <%}%>
 <br></br>
- <input type="button" onclick="location.href='./addItemToSupplier.jsp';" value="Add Item to Supplier List!" />
-
+--%>
 <%--footer start here --%>
                 </div>
                 <div class="cleared"></div>
