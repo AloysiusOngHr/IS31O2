@@ -73,6 +73,22 @@
 		<servlet-class>
 		servlet.viewSuppliersList</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>editSupplier</display-name>
+		<servlet-name>editSupplier</servlet-name>
+		<servlet-class>
+		servlet.editSupplier</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>addItem</display-name>
+		<servlet-name>addItem</servlet-name>
+		<servlet-class>
+		servlet.addItem</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CreateInventory</servlet-name>
 		<url-pattern>/CreateInventory</url-pattern>
@@ -108,6 +124,14 @@
 	<servlet-mapping>
 		<servlet-name>viewSuppliersList</servlet-name>
 		<url-pattern>/viewSuppliersList</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>editSupplier</servlet-name>
+		<url-pattern>/editSupplier</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>addItem</servlet-name>
+		<url-pattern>/addItem</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
